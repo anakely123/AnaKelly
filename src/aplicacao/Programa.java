@@ -11,6 +11,8 @@ import dominio.cliente;
 
 public class Programa {
 
+	private static String jpql;
+
 	public static void main(String[] args) {
 		Scanner scanner= new Scanner (System.in);
 		String op;
@@ -25,21 +27,20 @@ public class Programa {
 			
 				break;
 			case "2":
-				System.out.println();listarRegistro(entityManager);
+				System.out.println(listarRegistro(entityManager));
 				
 				break;
 			case "3":
-				alterarRegistro();
+				alterarRegistro(entityManager);
 				
 				break;
 			case "4":
-				removerRegistro();
+				System.out.println(removerRegistro(entityManager));
 			
 				break;
-			case "5":
-				sairDoPrograma();
+			
 				
-				break;
+
 				
 		    default:
 		    	break;
@@ -48,30 +49,54 @@ public class Programa {
 		entityManager.close();
 		entityManagerFactory.close();
 		}
-
-	private static void sairDoPrograma() {
 	
+		
+	
+
+	private static boolean removerRegistro(EntityManager entityManager) {
+		cliente clienteFound = entityManager.find(cliente.class, 1);
+		entityManager.getTransaction().begin();
+		entityManager.remove(clienteFound);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		Scanner entityManagerFactory = null;
+		entityManagerFactory.close();
+		
 		
 	}
 
-	private static void removerRegistro() {
-
+	private static void alterarRegistro(EntityManager entityManager) {
+		cliente clienteFound = entityManager.find(cliente.class, 1);
+		clienteFound.setEndereco("Boa Hora");
+		entityManager.getTransaction().begin();
+		entityManager.persist(clienteFound);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		Scanner entityManagerFactory = null;
+		entityManagerFactory.close();
 		
-	}
-
-	private static void alterarRegistro() {
-	
 		
 	}
 
 	private static List<cliente> listarRegistro(EntityManager entityManager) {
-		String jpql = "SELECT c from cliente c";
-		return entityManager.createQuery(jpql, cliente.class ).getResultList();
-		
+		List<cliente> pessoas = entityManager.createQuery(jpql, cliente.class).getResultList();
+		char[] cliente;
+		System.out.println(cliente);
+		entityManager.close();
+		Scanner entityManagerFactory = null;
+		entityManagerFactory.close();		
 	}
 
 	private static void inserirRegistro(EntityManager entityManager) {
-		String jpql = "SELECT c from cliente c";
+		cliente clienteFound = entityManager.find(cliente.class, 1);
+		clienteFound.setnome("nome");
+		entityManager.getTransaction().begin();
+		entityManager.persist(clienteFound);
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		Scanner entityManagerFactory;
+		entityManagerFactory.close();
+		
 		
 		
 	}
